@@ -55,11 +55,11 @@ public class Node<Key, Value> {
         return this.balanceFactor;
     }
 
-    public void IncrementBalance() {
-        this.balanceFactor++;
+    public void IncrementBalance(int value) {
+        this.balanceFactor += value;
     }
 
-    public void DecrementBalance() {
-        this.balanceFactor--;
+    public void DecrementBalance(int value) {
+        this.balanceFactor -= value;
     }
 }
