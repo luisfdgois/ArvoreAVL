@@ -65,6 +65,81 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
         }
     }
 
+    private void Rotate(Node<Key, Value> pivot) {
+        /*
+            Rotação simples para a direita
+            Fator de balanceamento do pivô é 2 e do filho direito é 1
+         */
+        if (pivot.getBalanceFactor() == 2 && pivot.getRightChildren().getBalanceFactor() == 1) {
+
+        }/*
+            Rotação simples para a esquerda
+            Fator de balanceamento do pivô é -2 e do filho esquerdo é -11
+         */ else if (pivot.getBalanceFactor() == -2 && pivot.getLeftChildren().getBalanceFactor() == -1) {
+
+        }/*
+            Rotação dupla para a direita
+            Fator de balanceamento do pivô é 2 e do filho direito é -1
+         */ else if (pivot.getBalanceFactor() == 2 && pivot.getRightChildren().getBalanceFactor() == -1) {
+
+        }/*
+            Rotação dupla para a esquerda
+            Fator de balanceamento do pivô é -2 e do filho da esquerda é 1
+         */ else if (pivot.getBalanceFactor() == -2 && pivot.getLeftChildren().getBalanceFactor() == -1) {
+
+        }
+    }
+
+    private void RotateLeft(Node<Key, Value> pivot) {
+
+        Node<Key, Value> father = pivot.getFather();
+        Node<Key, Value> rightChildren = pivot.getRightChildren();
+
+        if ((father.getLeftChildren() != null) && (father.getLeftChildren().getKey().compareTo(pivot.getKey()) == 0)) {
+            father.AddLeftChildren(rightChildren);
+        } else {
+            father.AddRightChildren(rightChildren);
+        }
+
+        if (rightChildren.getLeftChildren() != null) {
+            Node<Key, Value> lefttChildren = rightChildren.getLeftChildren();
+            pivot.AddRightChildren(lefttChildren);
+        }
+
+        rightChildren.AddLeftChildren(pivot);
+    }
+
+    private void RotateRight(Node<Key, Value> pivot) {
+
+        Node<Key, Value> father = pivot.getFather();
+        Node<Key, Value> leftChildren = pivot.getLeftChildren();
+
+        if ((father.getLeftChildren() != null) && (father.getLeftChildren().getKey().compareTo(pivot.getKey()) == 0)) {
+            father.AddLeftChildren(leftChildren);
+        } else {
+            father.AddRightChildren(leftChildren);
+        }
+
+        if (leftChildren.getRightChildren() != null) {
+            Node<Key, Value> rightChildren = leftChildren.getRightChildren();
+            pivot.AddLeftChildren(rightChildren);
+        }
+
+        leftChildren.AddRightChildren(pivot);
+    }
+
+    private Node<Key, Value> GetPivot(Node<Key, Value> node) {
+
+        if (node != null) {
+            if (node.getBalanceFactor() == 2 || node.getBalanceFactor() == -2) {
+                return node;
+            } else {
+                GetPivot(node.getFather());
+            }
+        }
+        return null;
+    }
+
     @Override
     public void Delete(Key key) {
         Node<Key, Value> node = GetByKey(key);
