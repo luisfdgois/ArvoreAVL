@@ -12,6 +12,11 @@ public class Node<Key, Value> {
     private Node<Key, Value> leftChildren;
     private Node<Key, Value> rightChildren;
 
+    public Node(Key key, Value value) {
+        this.key = key;
+        this.value = value;
+    }
+
     public Key getKey() {
         return key;
     }
@@ -27,11 +32,11 @@ public class Node<Key, Value> {
     public Node<Key, Value> getRightChildren() {
         return rightChildren;
     }
-    
-    public void AddFather(Node<Key, Value> father){
+
+    public void AddFather(Node<Key, Value> father) {
         this.father = father;
     }
-    
+
     public void AddLeftChildren(Node<Key, Value> children) {
         if (children != null) {
             children.AddFather(this);
@@ -44,5 +49,17 @@ public class Node<Key, Value> {
             children.AddFather(this);
         }
         this.rightChildren = children;
+    }
+
+    public int getBalanceFactor() {
+        return this.balanceFactor;
+    }
+
+    public void IncrementBalance() {
+        this.balanceFactor++;
+    }
+
+    public void DecrementBalance() {
+        this.balanceFactor--;
     }
 }

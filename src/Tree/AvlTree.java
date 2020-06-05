@@ -13,6 +13,7 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
             root = node;
         } else {
             add(this.root, node);
+            CalculateBalanceFactor(node);
         }
     }
 
@@ -24,7 +25,7 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
             } else {
                 add(_root.getRightChildren(), node);
             }
-        } else if (node.getKey().compareTo(_root) < 0) {
+        } else if (node.getKey().compareTo(_root.getKey()) < 0) {
             if (_root.getLeftChildren() == null) {
                 _root.AddLeftChildren(node);
                 return;
@@ -34,9 +35,38 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
         }
     }
 
+    private void CalculateBalanceFactor(Node<Key, Value> node) {
+
+        Node<Key, Value> father = node.getFather();
+
+        if (father.getLeftChildren() != null && father.getRightChildren() != null) {
+            if ((father.getLeftChildren().getKey().compareTo(node.getKey()) == 0)) {
+                father.IncrementBalance();
+            } else if (father.getRightChildren().getKey().compareTo(node.getKey()) == 0) {
+                father.DecrementBalance();
+            }
+        } else {
+            DifferentLevels(node);
+        }
+    }
+
+    private void DifferentLevels(Node<Key, Value> node) {
+
+        if (node.getFather() != null) {
+            Node<Key, Value> father = node.getFather();
+
+            if ((father.getLeftChildren() != null) && (father.getLeftChildren().getKey().compareTo(node.getKey()) == 0)) {
+                father.IncrementBalance();
+            } else if ((father.getRightChildren() != null) && (father.getRightChildren().getKey().compareTo(node.getKey()) == 0)) {
+                father.DecrementBalance();
+            }
+
+            DifferentLevels(father);
+        }
+    }
+
     @Override
     public void Delete(Key key) {
-
         Node<Key, Value> node = GetByKey(key);
 
         if (node != null && node.getKey().compareTo(key) == 0) {
