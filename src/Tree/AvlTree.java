@@ -68,24 +68,24 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
     private void Rotate(Node<Key, Value> pivot) {
         /*
             Rotação simples para a direita
-            Fator de balanceamento do pivô é 2 e do filho direito é 1
+            Fator de balanceamento do pivô é 2 e do filho esquerdo é 1
          */
-        if (pivot.getBalanceFactor() == 2 && pivot.getRightChildren().getBalanceFactor() == 1) {
-
+        if (pivot.getBalanceFactor() == 2 && pivot.getLeftChildren().getBalanceFactor() == 1) {
+            
         }/*
             Rotação simples para a esquerda
-            Fator de balanceamento do pivô é -2 e do filho esquerdo é -11
-         */ else if (pivot.getBalanceFactor() == -2 && pivot.getLeftChildren().getBalanceFactor() == -1) {
+            Fator de balanceamento do pivô é -2 e do filho direito é -1
+         */ else if (pivot.getBalanceFactor() == -2 && pivot.getRightChildren().getBalanceFactor() == -1) {
 
         }/*
             Rotação dupla para a direita
-            Fator de balanceamento do pivô é 2 e do filho direito é -1
-         */ else if (pivot.getBalanceFactor() == 2 && pivot.getRightChildren().getBalanceFactor() == -1) {
+            Fator de balanceamento do pivô é 2 e do filho esquerdo é -1
+         */ else if (pivot.getBalanceFactor() == 2 && pivot.getLeftChildren().getBalanceFactor() == -1) {
 
         }/*
             Rotação dupla para a esquerda
-            Fator de balanceamento do pivô é -2 e do filho da esquerda é 1
-         */ else if (pivot.getBalanceFactor() == -2 && pivot.getLeftChildren().getBalanceFactor() == -1) {
+            Fator de balanceamento do pivô é -2 e do filho da direito é 1
+         */ else if (pivot.getBalanceFactor() == -2 && pivot.getRightChildren().getBalanceFactor() == -1) {
 
         }
     }
