@@ -5,7 +5,7 @@ package Tree;
  */
 public class Node<Key, Value> {
 
-    private int balanceFactor;
+    private int Height;
     private Key key;
     private Value value;
     private Node<Key, Value> father;
@@ -52,14 +52,32 @@ public class Node<Key, Value> {
     }
 
     public int getBalanceFactor() {
-        return this.balanceFactor;
+        if (this.leftChildren == null & this.rightChildren == null) {
+            return 0;
+        } else if (this.leftChildren != null && this.rightChildren == null) {
+            return this.leftChildren.getHeight() - 0;
+        } else if (this.rightChildren != null && this.leftChildren == null) {
+            return 0 - this.rightChildren.getHeight();
+        } else {
+            return this.leftChildren.getHeight() - this.rightChildren.getHeight();
+        }
     }
 
-    public void IncrementBalance(int value) {
-        this.balanceFactor += value;
+    public int getHeight() {
+        return this.Height;
     }
 
-    public void DecrementBalance(int value) {
-        this.balanceFactor -= value;
+    public int CalculateHeight() {
+        this.Height = 0;
+
+        if (this.leftChildren == null && this.rightChildren == null) {
+            return this.Height = 1;
+        } else if (this.leftChildren != null && this.rightChildren == null) {
+            return this.Height = 1 + this.leftChildren.CalculateHeight();
+        } else if (this.rightChildren != null && this.leftChildren == null) {
+            return this.Height = 1 + this.rightChildren.CalculateHeight();
+        } else {
+            return this.Height = 1 + Math.max(this.leftChildren.CalculateHeight(), this.rightChildren.CalculateHeight());
+        }
     }
 }

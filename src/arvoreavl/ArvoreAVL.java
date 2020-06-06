@@ -38,6 +38,8 @@ public class ArvoreAVL {
         tree.Add(nodes[10]);
         tree.Add(nodes[11]);
         
-        
+        tree.Delete(51);
+        tree.Delete(59);
+        tree.Delete(55);
     }
 }

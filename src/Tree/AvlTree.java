@@ -13,6 +13,7 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
             root = node;
         } else {
             add(this.root, node);
+            this.root.CalculateHeight();
             Balance(node);
         }
     }
@@ -37,47 +38,10 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
 
     private void Balance(Node<Key, Value> node) {
 
-        Node<Key, Value> pivot = CalculateBalanceFactor(node);
+        Node<Key, Value> pivot = GetPivot(node);
 
         if (pivot != null) {
             Rotate(pivot);
-        }
-    }
-
-    private Node<Key, Value> CalculateBalanceFactor(Node<Key, Value> node) {
-
-        if (node.getFather().getLeftChildren() != null && node.getFather().getRightChildren() != null) {
-            SameLevel(node);
-            return null;
-        } else {
-            DifferentLevel(node);
-            return GetPivot(node);
-        }
-    }
-
-    private void SameLevel(Node<Key, Value> node) {
-
-        Node<Key, Value> father = node.getFather();
-
-        if ((father.getLeftChildren().getKey().compareTo(node.getKey()) == 0)) {
-            father.IncrementBalance(1);
-        } else if (father.getRightChildren().getKey().compareTo(node.getKey()) == 0) {
-            father.DecrementBalance(1);
-        }
-    }
-
-    private void DifferentLevel(Node<Key, Value> node) {
-
-        if (node.getFather() != null) {
-            Node<Key, Value> father = node.getFather();
-
-            if ((father.getLeftChildren() != null) && (father.getLeftChildren().getKey().compareTo(node.getKey()) == 0)) {
-                father.IncrementBalance(1);
-            } else if ((father.getRightChildren() != null) && (father.getRightChildren().getKey().compareTo(node.getKey()) == 0)) {
-                father.DecrementBalance(1);
-            }
-
-            DifferentLevel(father);
         }
     }
 
@@ -168,6 +132,7 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
     @Override
     public void Delete(Key key) {
         Node<Key, Value> node = GetByKey(key);
+        Node<Key, Value> successor = node;
 
         if (node != null && node.getKey().compareTo(key) == 0) {
             // 1- Nó folha
@@ -203,7 +168,7 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
             } // 3- Nó possui duas árvores
             else {
                 // Obter o sucessor:
-                Node<Key, Value> successor = GetSuccessor(node);
+                successor = GetSuccessor(node);
                 // 3.1- Sucessor é folha
                 if (successor.getRightChildren() == null) {
                     // Removendo a referência que o pai do sucessor tem para ele
@@ -252,6 +217,8 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
                     this.root = successor;
                 }
             }
+            this.root.CalculateHeight();
+            Balance(successor);
         }
     }
 
@@ -274,10 +241,10 @@ public class AvlTree<Key extends Comparable, Value> implements IAvlTree<Key, Val
     private Node<Key, Value> getByKey(Node<Key, Value> _root, Key key) {
 
         if (key.compareTo(_root.getKey()) > 0) {
-            getByKey(_root.getRightChildren(), key);
+            return getByKey(_root.getRightChildren(), key);
         }
         if (key.compareTo(_root.getKey()) < 0) {
-            getByKey(_root.getLeftChildren(), key);
+            return getByKey(_root.getLeftChildren(), key);
         }
         if (key.compareTo(_root.getKey()) == 0) {
             return _root;
